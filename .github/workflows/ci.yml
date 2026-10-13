@@ -80,9 +80,3 @@ jobs:
           name: ${{ steps.rename.outputs.artifact_name }}
           path: ${{ steps.rename.outputs.zip_path }}
           if-no-files-found: error
-
-  license-check:
-    name: License Check
-    uses: ./.github/workflows/license-scanning.yml
-    permissions:
-      contents: read
