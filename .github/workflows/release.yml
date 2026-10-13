@@ -53,7 +53,6 @@ jobs:
     outputs:
       artifact_name: ${{ steps.rename.outputs.artifact_name }}
       zip_path: ${{ steps.zip.outputs.path }}
-      sbom_path: ${{ steps.sbom.outputs.sbom_path }}
     
     defaults:
       run:
@@ -96,25 +95,12 @@ jobs:
           mv code-editor-plugin.zip "$NEW_NAME"
           echo "artifact_name=${NEW_NAME%.zip}" >> "$GITHUB_OUTPUT"
           echo "zip_path=plugins/code-editor-plugin/$NEW_NAME" >> "$GITHUB_OUTPUT"
-
-      - name: Generate CycloneDX SBOM
-        id: sbom
-        run: |
-          npx --yes @cyclonedx/cyclonedx-npm --output-file "code-editor-plugin-v${{ needs.prepare.outputs.version }}.cdx.json" --output-format json --spec-version 1.5
-          echo "sbom_path=plugins/code-editor-plugin/code-editor-plugin-v${{ needs.prepare.outputs.version }}.cdx.json" >> "$GITHUB_OUTPUT"
       
       - name: Upload plugin artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.rename.outputs.artifact_name }}
           path: ${{ steps.rename.outputs.zip_path }}
-          if-no-files-found: error
-
-      - name: Upload SBOM artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.rename.outputs.artifact_name }}-sbom
-          path: ${{ steps.sbom.outputs.sbom_path }}
           if-no-files-found: error
 
   release:
@@ -128,30 +114,12 @@ jobs:
     
     permissions:
       contents: write
-      id-token: write
-      attestations: write
     
     steps:
       - name: Download plugin artifact
         uses: actions/download-artifact@v4
         with:
           name: ${{ needs.build.outputs.artifact_name }}
-
-      - name: Download SBOM artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ needs.build.outputs.artifact_name }}-sbom
-
-      - name: Attest build provenance
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: ${{ needs.build.outputs.artifact_name }}.zip
-
-      - name: Attest SBOM
-        uses: actions/attest-sbom@v2
-        with:
-          subject-path: ${{ needs.build.outputs.artifact_name }}.zip
-          sbom-path: code-editor-plugin-v${{ needs.prepare.outputs.version }}.cdx.json
       
       - name: Create GitHub Release
         env:
@@ -159,7 +127,6 @@ jobs:
         run: |
           gh release create "${{ needs.prepare.outputs.tag }}" \
             "${{ needs.build.outputs.artifact_name }}.zip" \
-            "code-editor-plugin-v${{ needs.prepare.outputs.version }}.cdx.json" \
             --repo "${GITHUB_REPOSITORY}" \
             --title "Code Editor Plugin v${{ needs.prepare.outputs.version }}" \
             --generate-notes
