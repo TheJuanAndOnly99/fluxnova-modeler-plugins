@@ -166,7 +166,7 @@ The following items cannot be implemented via code changes and require manual co
 
 1. **Enable branch protection on `main`:**
    - Require pull request reviews before merging
-   - Require status checks to pass (CI, dependency-review)
+   - Require status checks to pass (CI, dependency-review, license-scanning)
    - Prevent direct pushes to main
    - Prevent branch deletion
 
@@ -193,14 +193,18 @@ The following items cannot be implemented via code changes and require manual co
 ### Phase 1: Immediate (This PR)
 
 - [x] Create gap report
-- [x] Add dependency-review workflow with FINOS Category A license allow-list
-- [x] Add license-scanning workflow (full-tree scan with `license-checker-rseidelsohn`)
+- [x] Add dependency-review workflow (vulnerability/malicious package blocking on PRs)
+- [x] Add license-scanning workflow (full-tree license scan with `license-checker-rseidelsohn`)
 - [x] Update release workflow with SBOM, provenance attestation, and license check gate
 - [x] Add least-privilege `permissions:` to all workflow jobs
 - [x] Enhance SECURITY.md with response timeframes and SCA/SAST policies
 - [x] Create SUPPORT.md
 - [x] Update CONTRIBUTING.md with local policies
 - [x] Create OpenVEX starter file
+
+**Workflow responsibility split:**
+- `dependency-review`: CVEs and malicious packages on every PR (fails on high severity)
+- `license-scanning`: FINOS Category A license compliance (weekly, on dependency changes, before release)
 
 ### Phase 2: Follow-Up (Manual/Upstream)
 
