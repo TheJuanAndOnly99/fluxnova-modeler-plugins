@@ -6,7 +6,16 @@ on:
       - '**'
     paths:
       - 'plugins/code-editor-plugin/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'plugins/code-editor-plugin/**'
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
