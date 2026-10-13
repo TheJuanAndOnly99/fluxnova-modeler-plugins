@@ -37,9 +37,22 @@ This section documents the project's policy for software composition analysis (S
 
 ### Software Composition Analysis (SCA)
 
-The `dependency-review` workflow runs on every pull request and blocks merging when:
-- A dependency with a known vulnerability of **high severity or above** is added
-- A dependency with a license incompatible with Apache-2.0 or not in the [FINOS approved license list](https://community.finos.org/docs/governance/software-projects/license-categories/) is added
+Two workflows enforce SCA policies:
+
+1. **`dependency-review`** runs on every pull request and blocks merging when:
+   - A dependency with a known vulnerability of **high severity or above** is added
+   - A dependency with a license not in the FINOS Category A allow-list is added
+
+2. **`license-scanning`** performs full dependency tree license scans:
+   - Runs weekly, on `workflow_dispatch`, and on changes to `package.json`/`package-lock.json`
+   - Uses `license-checker-rseidelsohn` with FINOS Category A licenses only
+   - Release workflow requires license check to pass before publishing
+
+**Allowed licenses (FINOS Category A):**
+Apache-2.0, Apache-1.1, MIT, ISC, BSD-2-Clause, BSD-3-Clause, 0BSD, Unlicense, Python-2.0, PostgreSQL, BSL-1.0, W3C, WTFPL, Xnet, NCSA, ZPL-2.0, zlib, BlueOak-1.0.0, CC-BY-4.0 (data only).
+
+**Excluded packages with documented justification:**
+- `bpmn-js`: Reported as "Custom: LICENSE" but is MIT with a watermark visibility clause (permissive, Apache-2.0 compatible)
 
 <!-- TODO: Enable Dependabot alerts and security updates in repository settings -->
 
@@ -47,7 +60,7 @@ The `dependency-review` workflow runs on every pull request and blocks merging w
 - Critical and high severity vulnerabilities in runtime dependencies must be fixed within **7 days** of being reported
 - Medium severity vulnerabilities must be fixed within **30 days**
 - Low severity vulnerabilities must be fixed in the next scheduled release
-- Dependencies with licenses incompatible with Apache-2.0 must be removed or replaced before the change is merged
+- Dependencies with licenses not in FINOS Category A must be removed or replaced before the change is merged
 
 A vulnerability may be suppressed only when a maintainer determines it is non-exploitable for this project. The suppression must be:
 - Documented in the OpenVEX file ([vex/fluxnova-modeler-plugins.openvex.json](vex/fluxnova-modeler-plugins.openvex.json))
