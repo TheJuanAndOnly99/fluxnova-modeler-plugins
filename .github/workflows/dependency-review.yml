@@ -1,0 +1,89 @@
+name: Dependency Review
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          deny-licenses: |
+            AGPL-1.0-only
+            AGPL-1.0-or-later
+            AGPL-3.0-only
+            AGPL-3.0-or-later
+            GPL-1.0-only
+            GPL-1.0-or-later
+            GPL-2.0-only
+            GPL-2.0-or-later
+            GPL-3.0-only
+            GPL-3.0-or-later
+            LGPL-2.0-only
+            LGPL-2.0-or-later
+            LGPL-2.1-only
+            LGPL-2.1-or-later
+            LGPL-3.0-only
+            LGPL-3.0-or-later
+            SSPL-1.0
+            BSD-4-Clause
+            JSON
+            QPL-1.0
+            Sleepycat
+            OSL-3.0
+            EUPL-1.0
+            EUPL-1.1
+            CPOL-1.02
+            NPL-1.0
+            NPL-1.1
+          allow-licenses: |
+            Apache-2.0
+            Apache-1.1
+            MIT
+            ISC
+            BSD-2-Clause
+            BSD-3-Clause
+            0BSD
+            Unlicense
+            CC0-1.0
+            Zlib
+            BSL-1.0
+            Python-2.0
+            PostgreSQL
+            PHP-3.01
+            Ms-PL
+            X11
+            W3C
+            WTFPL
+            Xnet
+            NCSA
+            ZPL-2.0
+            MPL-2.0
+            EPL-1.0
+            EPL-2.0
+            CDDL-1.0
+            CDDL-1.1
+            CPL-1.0
+            Ruby
+            OFL-1.1
+            IPA
+            SPL-1.0
+            ErlPL-1.1
+            IPL-1.0
+          comment-summary-in-pr: always
+          warn-only: false
