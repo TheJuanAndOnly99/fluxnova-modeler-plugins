@@ -96,7 +96,7 @@ jobs:
           echo "artifact_name=${NEW_NAME%.zip}" >> "$GITHUB_OUTPUT"
           echo "zip_path=plugins/code-editor-plugin/$NEW_NAME" >> "$GITHUB_OUTPUT"
       
-      - name: Upload plugin artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.rename.outputs.artifact_name }}
