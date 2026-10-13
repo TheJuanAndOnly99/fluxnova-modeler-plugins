@@ -1,0 +1,10 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://github.com/finos/fluxnova-modeler-plugins/blob/main/vex/fluxnova-modeler-plugins.openvex.json",
+  "author": "Fluxnova Modeler Plugins Maintainers",
+  "role": "Project maintainers",
+  "timestamp": "2026-10-13T00:00:00Z",
+  "version": 1,
+  "tooling": "Maintained by hand; update alongside any vulnerability suppressions",
+  "statements": []
+}
