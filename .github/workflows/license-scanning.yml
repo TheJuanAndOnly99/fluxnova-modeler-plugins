@@ -61,8 +61,9 @@ jobs:
             --excludePackages '${{ steps.pkg.outputs.exclude }};bpmn-js@18.1.2'
           # Exclusions:
           # - Root package: excluded to avoid UNKNOWN license from missing license field
-          # - bpmn-js: license-checker reports "Custom: LICENSE" but it is MIT with a
-          #   watermark visibility clause (permissive). See: https://github.com/bpmn-io/bpmn-js/blob/main/LICENSE
+          # - bpmn-js: Approved exception. License-checker reports "Custom: LICENSE" but it is
+          #   MIT with a bpmn.io watermark clause (permissive). The watermark must be retained.
+          #   See: https://github.com/bpmn-io/bpmn-js/blob/main/LICENSE
           # Allowed non-standard licenses:
           # - BlueOak-1.0.0: OSI-approved permissive license, equivalent to MIT
           # - CC-BY-4.0 (caniuse-lite): applies to data, not code
