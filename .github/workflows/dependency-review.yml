@@ -60,7 +60,6 @@ jobs:
             BSD-3-Clause
             0BSD
             Unlicense
-            CC0-1.0
             Zlib
             BSL-1.0
             Python-2.0
@@ -73,17 +72,7 @@ jobs:
             Xnet
             NCSA
             ZPL-2.0
-            MPL-2.0
-            EPL-1.0
-            EPL-2.0
-            CDDL-1.0
-            CDDL-1.1
-            CPL-1.0
-            Ruby
-            OFL-1.1
-            IPA
-            SPL-1.0
-            ErlPL-1.1
-            IPL-1.0
+            BlueOak-1.0.0
+            CC-BY-4.0
           comment-summary-in-pr: always
           warn-only: false
